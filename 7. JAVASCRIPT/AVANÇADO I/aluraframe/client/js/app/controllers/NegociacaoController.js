@@ -7,29 +7,34 @@ class NegociacaoController {
         this._inputQuantidade =$('#quantidade');
         this._inputData =$('#data');
         this._inputValor =$('#valor');
+        this._listaNegociacoes = new ListaNegociacoes();
     }
-    adiciona(event){
+        adiciona(event){
 
-        event.preventDefault();
+            event.preventDefault();
+            this._listaNegociacoes.adiciona(this._criaNegociacao());
+            this._limpaFormulario();
+        }
 
-        //converting the date string to a date Object
+        _criaNegociacao(){
 
-        var formatedDate = new Date(...
-            this._inputData.value
-            .split('-')
-            .map((item, index) => item - index % 2)
+            return new Negociacao(
+                DateHelper.textoParaData(this._inputData.value),
+                this._inputQuantidade.value,
+                this._inputValor.value
             );
-        console.log(formatedDate);
+        }
 
-        let negociacao = new Negociacao(
-            formatedDate,
-            this._inputQuantidade.value,
-            this._inputValor.value
-        );
-        console.log(negociacao);
+        _limpaFormulario(){
+
+            this._inputData.value = '';
+            this._inputQuantidade.value = 1;
+            this._inputValor.value = 0;
+            this._inputData.focus();
+        }
 
         // exercicio para reescrever um array dobrando os valores dos números ímpares encontrados.
-        let numeros = [3,2,11,20,8,7];
-        var result = numeros.map((item) => item % 2 ? item * 2 : item); 
+        // let numeros = [3,2,11,20,8,7];
+        // var result = numeros.map((item) => item % 2 ? item * 2 : item); 
+        // console.log(result);   
     }
-}
