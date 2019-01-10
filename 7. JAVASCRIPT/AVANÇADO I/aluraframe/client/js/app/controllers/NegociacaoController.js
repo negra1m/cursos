@@ -7,8 +7,8 @@ class NegociacaoController {
         this._inputQuantidade =$('#quantidade');
         this._inputData =$('#data');
         this._inputValor =$('#valor');
-        this._listaNegociacoes = new ListaNegociacoes();
-        
+        this._listaNegociacoes = new ListaNegociacoes(model =>
+            this._negociacoesView.update(model));
         this._negociacoesView = new NegociacoesView($('#negociacoesView'));
         this._negociacoesView.update(this._listaNegociacoes);
         
@@ -23,7 +23,6 @@ class NegociacaoController {
             this._mensagem.texto = 'Negociação adicionada com sucesso';
             
             this._mensagemView.update(this._mensagem);
-            this._negociacoesView.update(this._listaNegociacoes);
             
             this._limpaFormulario();
         }
@@ -43,6 +42,19 @@ class NegociacaoController {
             this._inputQuantidade.value = 1;
             this._inputValor.value = 0;
             this._inputData.focus();
+        }
+
+        esvazia(){
+            let valid = confirm("Você deseja realmente apagar a lista?");
+            if(valid){
+
+                this._listaNegociacoes.limpaLista();
+                this._mensagem.texto = 'Negociações apagadas';
+                this._mensagemView.update(this._mensagem);
+            }else{
+                this._mensagem.texto = 'Suas negociações não foram apagadas';
+                this._mensagemView.update(this._mensagem);
+            }
         }
 
         // exercicio para reescrever um array dobrando os valores dos números ímpares encontrados.
