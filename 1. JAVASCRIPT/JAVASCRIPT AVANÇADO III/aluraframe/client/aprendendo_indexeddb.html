@@ -9,21 +9,28 @@
 <body>
     
 </body>
+<script src="js/app/models/Negociacao.js"></script>
 <script>
 
     var connection;
-    var openRequest = window.indexedDB.open('aluraframe', 2);
+    var openRequest = window.indexedDB.open('aluraframe', 3);
 
     openRequest.onupgradeneeded = e => {
 
         console.log('Cria ou altera um banco já existente');
         var minhaConnection = e.target.result;
-        minhaConnection.createObjectStore('negociacoes');
+
+        if (minhaConnection.objectStoreNames.contains('negociacoes')){
+
+            minhaConnection.deleteObjectStore('negociacoes');
+        }
+
+        minhaConnection.createObjectStore('negociacoes', { autoIncrement: true });
     }
 
     openRequest.onsuccess = e => {
 
-        console.log('Banco criado com sucesso')
+        console.log('Conexão Obtida com sucesso');
         connection = e.target.result;
     }
 
@@ -33,8 +40,55 @@
         console.log(e.target.error);
     }
 
-    function listaTodos(){
+    function adiciona(){
 
+        let transaction = connection.transaction(['negociacoes'], 'readwrite');
+
+        let store = transaction.objectStore('negociacoes');
+
+        let negociacao = new Negociacao(new Date, 2, 300);
+
+        let request = store.add(negociacao);
+
+        request.onsuccess = e=>{
+            console.log('Negociação inclusa');
+        }
+
+        request.onerror = e =>{
+            console.log('Não foi possível incluir a negociacao');
+        }
+    }   
+
+    function listaTodos(){
+        
+        let transaction = connection.transaction(['negociacoes'], 'readwrite');
+
+        let store = transaction.objectStore('negociacoes');
+
+        let cursor = store.openCursor();
+
+        let negociacoes = [];
+
+        cursor.onsuccess = e => {
+            let atual = e.target.result;
+
+            if (atual){
+
+                var dado = atual.value;
+
+                negociacoes.push(new Negociacao(dado._data, dado._quantidade, dado._valor));
+
+                atual.continue();
+
+            } else {
+                console.log(negociacoes);
+            }
+
+        }
+        cursor.onerror = e => {
+
+            console.log(e.target.error.name);
+        }
 
     }
 
