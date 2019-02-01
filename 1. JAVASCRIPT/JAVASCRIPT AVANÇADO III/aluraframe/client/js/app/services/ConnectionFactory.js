@@ -1,7 +1,8 @@
 (function (){
-var stores = ['negociacoes'];
-var version = 4;
-var dbName = 'aluraframe';
+const stores = ['negociacoes'];
+const version = 4;
+const dbName = 'aluraframe';
+
 var connection = null;
 var close= null;
 
