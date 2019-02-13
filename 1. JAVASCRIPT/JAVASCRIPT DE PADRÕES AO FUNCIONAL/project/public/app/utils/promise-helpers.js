@@ -3,6 +3,6 @@ export const handleStatus = res =>
 
 
 export const log = param => {
-    console.log(param);
+    console.log();
     return param;
 }
