@@ -12,13 +12,9 @@ class MaiorEMenor {
 
         list
         .forEach(element => {
-            if(element > maior){
-                maior = element
-            }
-            if(element < menor){
-             menor = element;
-            }    
-        })
+            element > maior ? maior = element : element;
+            element < menor ? menor = element : element;
+        })    
         console.log([maior, menor])
     }
     retornaMaior(){
@@ -26,5 +22,13 @@ class MaiorEMenor {
     }
     retornaMenor(){
         return menor;
+    }
+    retornaMedia(param){
+        
+        var media = param.reduce((total, num) =>{
+            return total + num;
+        }, 0);
+        media = media/param.length;
+        return media
     }
 }

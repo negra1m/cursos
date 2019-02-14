@@ -1,4 +1,5 @@
-describe("MaiorEMenor", ()=>{
+describe("MaiorEMenor: ", ()=>{
+    
     it('números em sequencia crescente', () =>{
 
         let test = new MaiorEMenor();
@@ -20,11 +21,22 @@ describe("MaiorEMenor", ()=>{
     });
 
     it('lista com 1 elemento', ()=>{
+        
         let test = new MaiorEMenor();
         test.encontraValor([1]);
 
         expect(test.retornaMaior()).toEqual(1);
         expect(test.retornaMenor()).toEqual(1);
     });
+
+    it('media de lista', ()=>{
+        
+        let test = new MaiorEMenor();
+        let values = [3, 3, 4, 2];
+
+        expect(test.retornaMedia(values)).toEqual(3);
+    });
+    
+
   
 })
